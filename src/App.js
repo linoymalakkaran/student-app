@@ -1,8 +1,8 @@
 import { Route, Routes, Navigate, Link } from 'react-router-dom';
 
-import AllQuotes from './pages/AllQuotes';
-import QuoteDetail from './pages/QuoteDetail';
-import NewQuote from './pages/NewQuote';
+import AllStudents from './pages/AllStudents';
+import StudentDetail from './pages/StudentDetail';
+import NewStudent from './pages/NewStudent';
 import NotFound from './pages/NotFound';
 import Layout from './components/layout/Layout';
 import Comments from './components/comments/Comments';
@@ -11,9 +11,9 @@ function App() {
   return (
     <Layout>
       <Routes>
-        <Route path='/' element={<Navigate replace to='/quotes' />} />
-        <Route path='/quotes' element={<AllQuotes />} />
-        <Route path='/quotes/:quoteId' element={<QuoteDetail />}>
+        <Route path='/' element={<Navigate replace to='/students' />} />
+        <Route path='/students' element={<AllStudents />} />
+        <Route path='/students/:studentId' element={<StudentDetail />}>
           <Route
             path=''
             element={
@@ -26,7 +26,7 @@ function App() {
           />
           <Route path={`comments`} element={<Comments />} />
         </Route>
-        <Route path='/new-quote' element={<NewQuote />} />
+        <Route path='/new-student' element={<NewStudent />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </Layout>

@@ -1,47 +1,36 @@
-const FIREBASE_DOMAIN = 'https://react-complete-7681e-default-rtdb.firebaseio.com';
+const BASE_URL = 'http://localhost:8088/api';
 
-export async function getAllQuotes() {
-  const response = await fetch(`${FIREBASE_DOMAIN}/quotes.json`);
-  const data = await response.json();
+export async function getAllStudents() {
+  const response = await fetch(`${BASE_URL}/Students`);
+  const studentData = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message || 'Could not fetch quotes.');
+    throw new Error(studentData || 'Could not fetch students.');
   }
 
-  const transformedQuotes = [];
-
-  for (const key in data) {
-    const quoteObj = {
-      id: key,
-      ...data[key],
-    };
-
-    transformedQuotes.push(quoteObj);
-  }
-
-  return transformedQuotes;
+  return studentData;
 }
 
-export async function getSingleQuote(quoteId) {
-  const response = await fetch(`${FIREBASE_DOMAIN}/quotes/${quoteId}.json`);
+export async function getSingleStudent(studentId) {
+  const response = await fetch(`${BASE_URL}/students/${studentId}.json`);
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message || 'Could not fetch quote.');
+    throw new Error(data.message || 'Could not fetch student.');
   }
 
-  const loadedQuote = {
-    id: quoteId,
+  const loadedStudent = {
+    id: studentId,
     ...data,
   };
 
-  return loadedQuote;
+  return loadedStudent;
 }
 
-export async function addQuote(quoteData) {
-  const response = await fetch(`${FIREBASE_DOMAIN}/quotes.json`, {
+export async function addStudent(studentData) {
+  const response = await fetch(`${BASE_URL}/students.json`, {
     method: 'POST',
-    body: JSON.stringify(quoteData),
+    body: JSON.stringify(studentData),
     headers: {
       'Content-Type': 'application/json',
     },
@@ -49,14 +38,14 @@ export async function addQuote(quoteData) {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message || 'Could not create quote.');
+    throw new Error(data.message || 'Could not create student.');
   }
 
   return null;
 }
 
 export async function addComment(requestData) {
-  const response = await fetch(`${FIREBASE_DOMAIN}/comments/${requestData.quoteId}.json`, {
+  const response = await fetch(`${BASE_URL}/comments/${requestData.studentId}.json`, {
     method: 'POST',
     body: JSON.stringify(requestData.commentData),
     headers: {
@@ -72,8 +61,8 @@ export async function addComment(requestData) {
   return { commentId: data.name };
 }
 
-export async function getAllComments(quoteId) {
-  const response = await fetch(`${FIREBASE_DOMAIN}/comments/${quoteId}.json`);
+export async function getAllComments(studentId) {
+  const response = await fetch(`${BASE_URL}/comments/${studentId}.json`);
 
   const data = await response.json();
 

@@ -12,21 +12,21 @@ const Comments = () => {
   const [isAddingComment, setIsAddingComment] = useState(false);
   const params = useParams();
 
-  const { quoteId } = params;
+  const { studentId } = params;
 
   const { sendRequest, status, data: loadedComments } = useHttp(getAllComments);
 
   useEffect(() => {
-    sendRequest(quoteId);
-  }, [quoteId, sendRequest]);
+    sendRequest(studentId);
+  }, [studentId, sendRequest]);
 
   const startAddCommentHandler = () => {
     setIsAddingComment(true);
   };
 
   const addedCommentHandler = useCallback(() => {
-    sendRequest(quoteId);
-  }, [sendRequest, quoteId]);
+    sendRequest(studentId);
+  }, [sendRequest, studentId]);
 
   let comments;
 
@@ -59,7 +59,7 @@ const Comments = () => {
       )}
       {isAddingComment && (
         <NewCommentForm
-          quoteId={quoteId}
+          studentId={studentId}
           onAddedComment={addedCommentHandler}
         />
       )}
