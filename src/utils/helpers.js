@@ -23,3 +23,8 @@ export function formatDate(newDate) {
   const formatted = `${dayName}, ${date} ${monthName} ${year}`;
   return formatted.toString();
 }
+
+export const isEmpty = (value) => value ? false : true;
+
+export const isValidDate = (date) =>
+  date instanceof Date && !isNaN(date.valueOf());

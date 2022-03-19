@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useParams, Outlet } from "react-router-dom";
 
 import useHttp from "../hooks/use-http";
@@ -6,9 +6,13 @@ import { getSingleStudent, getStudentNationality } from "../lib/api";
 import LoadingSpinner from "../components/UI/loadingSpinner/LoadingSpinner";
 import StudentForm from "../components/students/studentForm/StudentForm";
 import { addOrUpdateStudent } from "../lib/api";
+import { useNavigate } from "react-router-dom";
+import Modal from "../components/UI/modelPopUp/Modal";
 
 const StudentDetail = () => {
-  const { sendRequest, status } = useHttp(addOrUpdateStudent);
+  const navigate = useNavigate();
+  const { sendRequest, status: addOrUpdateStudentStatus } =
+    useHttp(addOrUpdateStudent);
   const addStudentHandler = (studentData) => {
     sendRequest(studentData);
   };
@@ -43,6 +47,24 @@ const StudentDetail = () => {
     return <p className="centered focused">{studentNationalityError}</p>;
   }
 
+  function onClose() {
+    navigate("/students");
+  }
+
+  const didSubmitModalContent = (
+    <React.Fragment>
+      <div>
+        <p>Student details updated successfully</p>
+        <button className="actions-button" onClick={onClose}>
+          Close
+        </button>
+      </div>
+    </React.Fragment>
+  );
+  if (addOrUpdateStudentStatus === "completed") {
+    return <Modal onClose={onClose}>{didSubmitModalContent}</Modal>;
+  }
+
   if (
     statusSingleStudent === "pending" ||
     studentNationalityStatus === "pending"
@@ -67,7 +89,7 @@ const StudentDetail = () => {
     <Fragment>
       <StudentForm
         studentDetails={loadedStudent}
-        isLoading={status === "pending"}
+        isLoading={addOrUpdateStudentStatus === "pending"}
         onAddStudent={addStudentHandler}
       />
       <Outlet />

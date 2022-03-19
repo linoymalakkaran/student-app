@@ -35,6 +35,13 @@
   font-size: 1.25rem;
 }
 
+.invalid input,
+.invalid textarea,
+.invalid select {
+  border-color: #aa0b20;
+  background-color: #ffeff1;
+}
+
 .control input:focus,
 .control textarea:focus {
   background-color: #cbf8f8;
@@ -47,4 +54,8 @@
 
 .actions button {
   font-size: 1.25rem;
+}
+
+.invalidLabel {
+  color: red;
 }
