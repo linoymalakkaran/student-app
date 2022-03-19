@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { formatDate } from "../../../utils/helpers";
 import classes from "./FamilyItem.module.css";
 
@@ -25,9 +24,9 @@ const FamilyItem = (props) => {
         </div>
         <div className="figcaption">{props.familyDetails.relationship}</div>
       </div>
-      <Link className="btn" to={`/student/${props.ID}`}>
+      <button className="btn" onClick={props.startAddFamilyDetailHandler}>
         Family Member Details
-      </Link>
+      </button>
     </li>
   );
 };

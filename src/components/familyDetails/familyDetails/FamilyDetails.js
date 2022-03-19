@@ -47,7 +47,12 @@ const FamilyDetails = () => {
     loadedFamilyDetails &&
     loadedFamilyDetails.length > 0
   ) {
-    familyDetails = <FamilyDetailsList familyDetails={loadedFamilyDetails} />;
+    familyDetails = (
+      <FamilyDetailsList
+        familyDetails={loadedFamilyDetails}
+        startAddFamilyDetailHandler={startAddFamilyDetailHandler}
+      />
+    );
   }
 
   if (

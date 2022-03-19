@@ -7,17 +7,23 @@ import Card from "../../UI/card/Card";
 import LoadingSpinner from "../../UI/loadingSpinner/LoadingSpinner";
 import classes from "./NewFamilyDetailsForm.module.css";
 import DatePicker from "react-datepicker";
+import { useNavigate } from "react-router-dom";
 
 const NewFamilyDetailForm = (props) => {
+  const navigate = useNavigate();
   const studentId = props.studentId;
 
-  const { sendRequest, status, error } = useHttp(addOrUpdateFamilyDetail);
+  const {
+    sendRequest,
+    data: familyDetailsResponse,
+    status,
+    error,
+  } = useHttp(addOrUpdateFamilyDetail);
   const { sendRequest: sendNationalityRequest, data: nationalities } = useHttp(
     getAllNationalities,
     true
   );
 
-  const [familyMemberId, setFamilyMemberId] = useState(props.familyId || "");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState(
@@ -42,9 +48,10 @@ const NewFamilyDetailForm = (props) => {
 
   useEffect(() => {
     if (status === "completed" && !error) {
-      setFamilyMemberId();
+      //navigate(`/student/${studentId}/family-details`);
+      window.location.href = `/student/${studentId}/family-details`;
     }
-  }, [status, error, setFamilyMemberId]);
+  }, [status, error, familyDetailsResponse, studentId]);
 
   let nationalitiesList =
     nationalities &&
@@ -96,7 +103,7 @@ const NewFamilyDetailForm = (props) => {
     //#endregion form validation
 
     sendRequest({
-      ID: familyMemberId,
+      ID: props.familyMemberId || "",
       firstName: firstName,
       lastName: lastName,
       dateOfBirth: dateOfBirth,
