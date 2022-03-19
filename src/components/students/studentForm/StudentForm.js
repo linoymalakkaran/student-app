@@ -28,8 +28,8 @@ const StudentForm = (props) => {
   const [formInputsValidity, setFormInputsValidity] = useState({
     firstName: true,
     lastName: true,
-    nationality: true,
     dateOfBirth: true,
+    nationality: true,
   });
 
   const {

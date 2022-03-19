@@ -85,28 +85,42 @@ export async function getStudentNationality(studentId) {
   return data;
 }
 
-export async function addFamilyDetail(requestData) {
-  const response = await fetch(
-    `${BASE_URL}/FamilyDetails/${requestData.quoteId}.json`,
-    {
-      method: "POST",
-      body: JSON.stringify(requestData.familyDetailData),
+export async function addOrUpdateFamilyDetail(requestData) {
+  let response = null;
+  if (!requestData.ID) {
+    response = await fetch(
+      `${BASE_URL}/Students/${requestData.studentId}/FamilyMembers`,
+      {
+        method: "POST",
+        body: JSON.stringify(requestData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  } else {
+    response = await fetch(`${BASE_URL}/FamilyMembers/${requestData.ID}`, {
+      method: "PUT",
+      body: JSON.stringify(requestData),
       headers: {
         "Content-Type": "application/json",
       },
-    }
-  );
+    });
+  }
+
   const data = await response.json();
 
   if (!response.ok) {
     throw new Error(data.message || "Could not add familyDetail.");
   }
 
-  return { familyDetailId: data.name };
+  return data;
 }
 
-export async function getAllFamilyDetails(quoteId) {
-  const response = await fetch(`${BASE_URL}/FamilyDetails/${quoteId}.json`);
+export async function getAllFamilyDetails(studentId) {
+  const response = await fetch(
+    `${BASE_URL}/Students/${studentId}/FamilyMembers`
+  );
 
   const data = await response.json();
 
@@ -114,16 +128,5 @@ export async function getAllFamilyDetails(quoteId) {
     throw new Error(data.message || "Could not get FamilyDetails.");
   }
 
-  const transformedFamilyDetails = [];
-
-  for (const key in data) {
-    const familyDetailObj = {
-      id: key,
-      ...data[key],
-    };
-
-    transformedFamilyDetails.push(familyDetailObj);
-  }
-
-  return transformedFamilyDetails;
+  return data;
 }

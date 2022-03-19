@@ -12,7 +12,7 @@ const FamilyDetails = () => {
   const [isAddingFamilyDetail, setIsAddingFamilyDetail] = useState(false);
   const params = useParams();
 
-  const { quoteId } = params;
+  const { studentId } = params;
 
   const {
     sendRequest,
@@ -21,16 +21,16 @@ const FamilyDetails = () => {
   } = useHttp(getAllFamilyDetails);
 
   useEffect(() => {
-    sendRequest(quoteId);
-  }, [quoteId, sendRequest]);
+    sendRequest(studentId);
+  }, [studentId, sendRequest]);
 
   const startAddFamilyDetailHandler = () => {
     setIsAddingFamilyDetail(true);
   };
 
   const addedFamilyDetailHandler = useCallback(() => {
-    sendRequest(quoteId);
-  }, [sendRequest, quoteId]);
+    sendRequest(studentId);
+  }, [sendRequest, studentId]);
 
   let familyDetails;
 
@@ -67,7 +67,7 @@ const FamilyDetails = () => {
       )}
       {isAddingFamilyDetail && (
         <NewFamilyDetailForm
-          quoteId={quoteId}
+          studentId={studentId}
           onAddedFamilyDetail={addedFamilyDetailHandler}
         />
       )}

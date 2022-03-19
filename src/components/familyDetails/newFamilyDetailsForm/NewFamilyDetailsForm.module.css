@@ -1,7 +1,5 @@
 .form {
-  margin-top: 1rem;
   position: relative;
-  text-align: center;
 }
 
 .loading {
@@ -24,7 +22,9 @@
   margin-bottom: 0.5rem;
 }
 
-.control textarea {
+.control input,
+.control textarea,
+.control select {
   font: inherit;
   padding: 0.35rem;
   border-radius: 4px;
@@ -35,11 +35,27 @@
   font-size: 1.25rem;
 }
 
+.invalid input,
+.invalid textarea,
+.invalid select {
+  border-color: #aa0b20;
+  background-color: #ffeff1;
+}
+
+.control input:focus,
 .control textarea:focus {
   background-color: #cbf8f8;
   outline-color: teal;
 }
 
+.actions {
+  text-align: right;
+}
+
 .actions button {
   font-size: 1.25rem;
+}
+
+.invalidLabel {
+  color: red;
 }
