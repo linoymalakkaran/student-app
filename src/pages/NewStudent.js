@@ -1,17 +1,17 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Fragment, useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 
-import StudentForm from '../components/students/StudentForm';
-import useHttp from '../hooks/use-http';
-import { addStudent } from '../lib/api';
+import StudentForm from "../components/students/studentForm/StudentForm";
+import useHttp from "../hooks/use-http";
+import { addOrUpdateStudent } from "../lib/api";
 
 const NewStudent = () => {
-  const { sendRequest, status } = useHttp(addStudent);
+  const { sendRequest, status } = useHttp(addOrUpdateStudent);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (status === 'completed') {
-      navigate('/students');
+    if (status === "completed") {
+      navigate("/students");
     }
   }, [status, navigate]);
 
@@ -19,7 +19,16 @@ const NewStudent = () => {
     sendRequest(studentData);
   };
 
-  return <StudentForm isLoading={status === 'pending'} onAddStudent={addStudentHandler} />;
+  return (
+    <Fragment>
+      <StudentForm
+        isLoading={status === "pending"}
+        studentDetails="{}"
+        onAddStudent={addStudentHandler}
+      />
+      <Outlet />
+    </Fragment>
+  );
 };
 
 export default NewStudent;

@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
-import StudentItem from "./StudentItem";
+import StudentItem from "../studentItem/StudentItem";
 import classes from "./StudentList.module.css";
 
 const sortStudents = (students, ascending) => {

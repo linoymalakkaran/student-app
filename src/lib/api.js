@@ -12,56 +12,43 @@ export async function getAllStudents() {
 }
 
 export async function getSingleStudent(studentId) {
-  const response = await fetch(`${BASE_URL}/students/${studentId}.json`);
+  const response = await fetch(`${BASE_URL}/Students/${studentId}`);
   const data = await response.json();
 
   if (!response.ok) {
     throw new Error(data.message || "Could not fetch student.");
   }
 
-  const loadedStudent = {
-    id: studentId,
-    ...data,
-  };
-
-  return loadedStudent;
+  return data;
 }
 
-export async function addStudent(studentData) {
-  const response = await fetch(`${BASE_URL}/students.json`, {
-    method: "POST",
-    body: JSON.stringify(studentData),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+export async function addOrUpdateStudent(studentData) {
+  let response = null;
+  if (studentData.ID) {
+    response = await fetch(`${BASE_URL}/Students/${studentData.ID}`, {
+      method: "PUT",
+      body: JSON.stringify(studentData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  } else {
+    response = await fetch(`${BASE_URL}/Students`, {
+      method: "POST",
+      body: JSON.stringify(studentData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
+
   const data = await response.json();
 
   if (!response.ok) {
     throw new Error(data.message || "Could not create student.");
   }
 
-  return null;
-}
-
-export async function addComment(requestData) {
-  const response = await fetch(
-    `${BASE_URL}/comments/${requestData.studentId}.json`,
-    {
-      method: "POST",
-      body: JSON.stringify(requestData.commentData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Could not add comment.");
-  }
-
-  return { commentId: data.name };
+  return data;
 }
 
 export async function getAllNationalities() {
@@ -71,6 +58,18 @@ export async function getAllNationalities() {
 
   if (!response.ok) {
     throw new Error(data.message || "Could not get comments.");
+  }
+
+  return data;
+}
+
+export async function getStudentNationality(studentId) {
+  const response = await fetch(`${BASE_URL}/Students/${studentId}/Nationality`);
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Could not get nationality.");
   }
 
   return data;

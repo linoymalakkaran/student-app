@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate, Link } from "react-router-dom";
+import { Route, Routes, Navigate,  } from "react-router-dom";
 
 import AllStudents from "./pages/AllStudents";
 import StudentDetail from "./pages/StudentDetail";
@@ -12,8 +12,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate replace to="/students" />} />
         <Route path="/students" element={<AllStudents />} />
-        <Route path="/students/:studentId" element={<StudentDetail />} />
         <Route path="/new-student" element={<NewStudent />} />
+        <Route path="/student/:studentId" element={<StudentDetail />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Layout>

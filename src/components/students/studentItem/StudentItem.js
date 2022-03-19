@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { formatDate } from "../../utils/helpers";
+import { formatDate } from "../../../utils/helpers";
 
 import classes from "./StudentItem.module.css";
 
@@ -18,8 +18,8 @@ const StudentItem = (props) => {
         </div>
         <div className="figcaption">{formatDate(props.dateOfBirth)}</div>
       </div>
-      <Link className="btn" to={`/students/${props.ID}`}>
-        View Student Details
+      <Link className="btn" to={`/student/${props.ID}`}>
+        Student Details
       </Link>
     </li>
   );

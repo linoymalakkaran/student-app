@@ -1,28 +1,52 @@
 import { Fragment, useEffect } from "react";
 import { useParams, Outlet } from "react-router-dom";
 
-import HighlightedStudent from "../components/students/HighlightedStudent";
 import useHttp from "../hooks/use-http";
-import { getSingleStudent } from "../lib/api";
-import LoadingSpinner from "../components/UI/LoadingSpinner";
+import { getSingleStudent, getStudentNationality } from "../lib/api";
+import LoadingSpinner from "../components/UI/loadingSpinner/LoadingSpinner";
+import StudentForm from "../components/students/studentForm/StudentForm";
+import { addOrUpdateStudent } from "../lib/api";
 
 const StudentDetail = () => {
+  const { sendRequest, status } = useHttp(addOrUpdateStudent);
+  const addStudentHandler = (studentData) => {
+    sendRequest(studentData);
+  };
+
   const params = useParams();
 
   const { studentId } = params;
 
   const {
-    sendRequest,
-    status,
+    sendRequest: sendSingleStudentRequest,
+    status: statusSingleStudent,
     data: loadedStudent,
     error,
   } = useHttp(getSingleStudent, true);
 
   useEffect(() => {
-    sendRequest(studentId);
-  }, [sendRequest, studentId]);
+    sendSingleStudentRequest(studentId);
+  }, [sendSingleStudentRequest, studentId]);
 
-  if (status === "pending") {
+  let {
+    sendRequest: sendStudentNationalityRequest,
+    status: studentNationalityStatus,
+    data: studentNationalitity,
+    error: studentNationalityError,
+  } = useHttp(getStudentNationality, true);
+
+  useEffect(() => {
+    sendStudentNationalityRequest(studentId);
+  }, [sendStudentNationalityRequest, studentId]);
+
+  if (studentNationalityError) {
+    return <p className="centered focused">{studentNationalityError}</p>;
+  }
+
+  if (
+    statusSingleStudent === "pending" ||
+    studentNationalityStatus === "pending"
+  ) {
     return (
       <div className="centered">
         <LoadingSpinner />
@@ -37,12 +61,14 @@ const StudentDetail = () => {
   if (!loadedStudent.ID) {
     return <p>No student found!</p>;
   }
+  loadedStudent.nationality = studentNationalitity?.nationality?.ID || null;
 
   return (
     <Fragment>
-      <HighlightedStudent
-        firstName={loadedStudent.firstName}
-        lastName={loadedStudent.lastName}
+      <StudentForm
+        studentDetails={loadedStudent}
+        isLoading={status === "pending"}
+        onAddStudent={addStudentHandler}
       />
       <Outlet />
     </Fragment>
