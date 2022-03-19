@@ -19,11 +19,18 @@ const NewStudent = () => {
     sendRequest(studentData);
   };
 
+  const studentDetails = {
+    ID: null,
+    firstName: "",
+    lastName: "",
+    dateOfBirth: new Date(),
+    nationality: 2,
+  };
   return (
     <Fragment>
       <StudentForm
         isLoading={status === "pending"}
-        studentDetails="{}"
+        studentDetails={studentDetails}
         onAddStudent={addStudentHandler}
       />
       <Outlet />

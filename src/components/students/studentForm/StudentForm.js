@@ -91,6 +91,7 @@ const StudentForm = (props) => {
       firstName: firstName,
       lastName: lastName,
       dateOfBirth: dateOfBirth,
+      nationality: nationality
     });
   }
 
@@ -158,7 +159,7 @@ const StudentForm = (props) => {
             <DatePicker
               id="lastName"
               selected={dateOfBirth}
-              onChange={(date) => setDateOfBirth(date)}
+              onChange={(event) => setDateOfBirth(event.target.value)}
             />
             {!formInputsValidity.dateOfBirth && (
               <p className={classes.invalidLabel}>

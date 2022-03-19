@@ -41,6 +41,16 @@ export async function addOrUpdateStudent(studentData) {
       },
     });
   }
+  // save student nationality
+  await fetch(
+    `${BASE_URL}/Students/${studentData.ID}/Nationality/${studentData.nationality}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
   const data = await response.json();
 
