@@ -7,9 +7,9 @@ import classes from "./StudentList.module.css";
 const sortStudents = (students, ascending) => {
   return students.sort((studentA, studentB) => {
     if (ascending) {
-      return studentA.ID > studentB.ID ? 1 : -1;
+      return studentA.firstName > studentB.firstName ? 1 : -1;
     } else {
-      return studentA.ID < studentB.ID ? 1 : -1;
+      return studentA.firstName < studentB.firstName ? 1 : -1;
     }
   });
 };
@@ -25,7 +25,8 @@ const StudentList = (props) => {
   const sortedStudents = sortStudents(props.students, isSortingAscending);
 
   const changeSortingHandler = () => {
-    navigate(location.pathname, {
+    navigate({
+      pathname: location.pathname,
       search: `?sort=${isSortingAscending ? "desc" : "asc"}`,
     });
   };
@@ -41,6 +42,7 @@ const StudentList = (props) => {
         {sortedStudents.map((student) => (
           <StudentItem
             key={student.ID}
+            ID={student.ID}
             firstName={student.firstName}
             lastName={student.lastName}
             dateOfBirth={student.dateOfBirth}

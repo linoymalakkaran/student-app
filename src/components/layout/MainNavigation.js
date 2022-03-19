@@ -1,20 +1,26 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 
-import classes from './MainNavigation.module.css';
+import classes from "./MainNavigation.module.css";
 
 const MainNavigation = () => {
   return (
     <header className={classes.header}>
-      <div className={classes.logo}>Great Students</div>
+      <div className={classes.logo}>Students App</div>
       <nav className={classes.nav}>
         <ul>
           <li>
-            <NavLink to='/students' className={navData => navData.isActive ? classes.active : '' }>
+            <NavLink
+              to="/students"
+              className={(navData) => (navData.isActive ? classes.active : "")}
+            >
               All Students
             </NavLink>
           </li>
           <li>
-            <NavLink to='/new-student' className={navData => navData.isActive ? classes.active : '' }>
+            <NavLink
+              to="/new-student"
+              className={(navData) => (navData.isActive ? classes.active : "")}
+            >
               Add a Student
             </NavLink>
           </li>

@@ -1,24 +1,54 @@
-import { Fragment, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from "react";
 
-import Card from '../UI/Card';
-import LoadingSpinner from '../UI/LoadingSpinner';
-import classes from './StudentForm.module.css';
+import Card from "../UI/Card";
+import classes from "./StudentForm.module.css";
+import DatePicker from "react-datepicker";
+import "/node_modules/react-datepicker/dist/react-datepicker.css";
+import useHttp from "../../hooks/use-http";
+import { getAllNationalities } from "../../lib/api";
+import LoadingSpinner from "../UI/LoadingSpinner";
 
 const StudentForm = (props) => {
   const [isEntering, setIsEntering] = useState(false);
+  const [dateOfBirth, setDateOfBirth] = useState(new Date());
 
-  const authorInputRef = useRef();
-  const textInputRef = useRef();
+  const firstNameInputRef = useRef();
+  const lastNameInputRef = useRef();
+  const {
+    sendRequest,
+    status,
+    data: nationalities,
+    error,
+  } = useHttp(getAllNationalities, true);
+
+  useEffect(() => {
+    sendRequest();
+  }, [sendRequest]);
+
+  if (status === "pending") {
+    return (
+      <div className="centered">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <p className="centered focused">{error}</p>;
+  }
 
   function submitFormHandler(event) {
     event.preventDefault();
 
-    const enteredAuthor = authorInputRef.current.value;
-    const enteredText = textInputRef.current.value;
+    const enteredFirstName = firstNameInputRef.current.value;
+    const enteredLastName = lastNameInputRef.current.value;
 
     // optional: Could validate here
 
-    props.onAddStudent({ author: enteredAuthor, text: enteredText });
+    props.onAddStudent({
+      firstName: enteredFirstName,
+      lastName: enteredLastName,
+    });
   }
 
   const finishEnteringHandler = () => {
@@ -28,6 +58,16 @@ const StudentForm = (props) => {
   const formFocusedHandler = () => {
     setIsEntering(true);
   };
+
+  let nationalitiesList =
+    nationalities.length > 0 &&
+    nationalities.map((item, i) => {
+      return (
+        <option key={i} value={item.ID}>
+          {item.Title}
+        </option>
+      );
+    });
 
   return (
     <Fragment>
@@ -51,15 +91,29 @@ const StudentForm = (props) => {
           )}
 
           <div className={classes.control}>
-            <label htmlFor='author'>Author</label>
-            <input type='text' id='author' ref={authorInputRef} />
+            <label htmlFor="firstName">First Name</label>
+            <input type="text" id="firstName" ref={firstNameInputRef} />
           </div>
           <div className={classes.control}>
-            <label htmlFor='text'>Text</label>
-            <textarea id='text' rows='5' ref={textInputRef}></textarea>
+            <label htmlFor="lastName">Last Name</label>
+            <input type="text" id="lastName" ref={lastNameInputRef} />
+          </div>
+          <div className={classes.control}>
+            <label htmlFor="lastName">Date of Birth</label>
+            <DatePicker
+              id="lastName"
+              selected={dateOfBirth}
+              onChange={(date) => setDateOfBirth(date)}
+            />
+          </div>
+          <div className={classes.control}>
+            <label htmlFor="nationalities">Nationality</label>
+            <select id="nationalities">{nationalitiesList}</select>
           </div>
           <div className={classes.actions}>
-            <button onClick={finishEnteringHandler} className='btn'>Add Student</button>
+            <button onClick={finishEnteringHandler} className="btn">
+              Add Student
+            </button>
           </div>
         </form>
       </Card>
