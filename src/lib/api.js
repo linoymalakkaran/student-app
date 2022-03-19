@@ -67,7 +67,7 @@ export async function getAllNationalities() {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message || "Could not get comments.");
+    throw new Error(data.message || "Could not get FamilyDetails.");
   }
 
   return data;
@@ -83,4 +83,47 @@ export async function getStudentNationality(studentId) {
   }
 
   return data;
+}
+
+export async function addFamilyDetail(requestData) {
+  const response = await fetch(
+    `${BASE_URL}/FamilyDetails/${requestData.quoteId}.json`,
+    {
+      method: "POST",
+      body: JSON.stringify(requestData.familyDetailData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Could not add familyDetail.");
+  }
+
+  return { familyDetailId: data.name };
+}
+
+export async function getAllFamilyDetails(quoteId) {
+  const response = await fetch(`${BASE_URL}/FamilyDetails/${quoteId}.json`);
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Could not get FamilyDetails.");
+  }
+
+  const transformedFamilyDetails = [];
+
+  for (const key in data) {
+    const familyDetailObj = {
+      id: key,
+      ...data[key],
+    };
+
+    transformedFamilyDetails.push(familyDetailObj);
+  }
+
+  return transformedFamilyDetails;
 }
