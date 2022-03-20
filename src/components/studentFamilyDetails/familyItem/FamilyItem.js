@@ -1,7 +1,18 @@
+import { useContext } from "react";
+import StudentContext from "../../../store/student-context";
 import { formatDate } from "../../../utils/helpers";
 import classes from "./FamilyItem.module.css";
 
 const FamilyItem = (props) => {
+  const studentCtx = useContext(StudentContext);
+
+  const editFamilyMemberDetails = () => {
+    studentCtx.addSelectedMemberItem(props.familyDetails);
+    props.startAddFamilyDetailHandler();
+  };
+
+  const removeFamilyMemberDetails = () => {};
+
   return (
     <li className={classes.item}>
       <div className="figure">
@@ -24,8 +35,11 @@ const FamilyItem = (props) => {
         </div>
         <div className="figcaption">{props.familyDetails.relationship}</div>
       </div>
-      <button className="btn" onClick={props.startAddFamilyDetailHandler}>
-        Family Member Details
+      <button className="btn" onClick={editFamilyMemberDetails}>
+        Edit
+      </button>
+      <button className="btn-remove" onClick={removeFamilyMemberDetails}>
+        Remove
       </button>
     </li>
   );

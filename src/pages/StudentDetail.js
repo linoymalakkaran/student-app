@@ -83,7 +83,7 @@ const StudentDetail = () => {
   if (!loadedStudent.ID) {
     return <p>No student found!</p>;
   }
-  loadedStudent.nationality = studentNationalitity?.nationality?.ID || null;
+  loadedStudent.nationality = studentNationalitity?.nationality?.ID || 2;
 
   return (
     <Fragment>

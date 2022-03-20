@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import useHttp from "../../../hooks/use-http";
 import { addOrUpdateFamilyDetail, getAllNationalities } from "../../../lib/api";
@@ -7,11 +7,14 @@ import Card from "../../UI/card/Card";
 import LoadingSpinner from "../../UI/loadingSpinner/LoadingSpinner";
 import classes from "./NewFamilyDetailsForm.module.css";
 import DatePicker from "react-datepicker";
-import { useNavigate } from "react-router-dom";
+import StudentContext from "../../../store/student-context";
+// import { useNavigate } from "react-router-dom";
 
 const NewFamilyDetailForm = (props) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const studentId = props.studentId;
+  const studentCtx = useContext(StudentContext);
+  const familyMemberId = studentCtx?.selectedFamilyMember?.ID || null;
 
   const {
     sendRequest,
@@ -24,15 +27,23 @@ const NewFamilyDetailForm = (props) => {
     true
   );
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [firstName, setFirstName] = useState(
+    studentCtx?.selectedFamilyMember?.firstName || ""
+  );
+  const [lastName, setLastName] = useState(
+    studentCtx?.selectedFamilyMember?.firstName || ""
+  );
   const [dateOfBirth, setDateOfBirth] = useState(
-    props.studentDetails?.dateOfBirth
-      ? new Date(props.studentDetails.dateOfBirth)
+    studentCtx?.selectedFamilyMember?.dateOfBirth
+      ? new Date(studentCtx?.selectedFamilyMember?.dateOfBirth)
       : new Date()
   );
-  const [relationShip, setRelationship] = useState("Parent");
-  const [nationality, setNationality] = useState("2");
+  const [relationShip, setRelationship] = useState(
+    studentCtx?.selectedFamilyMember?.relationship || "Parent"
+  );
+  const [nationality, setNationality] = useState(
+    studentCtx?.selectedFamilyMember?.nationality || "2"
+  );
 
   const [formInputsValidity, setFormInputsValidity] = useState({
     firstName: true,
@@ -71,6 +82,11 @@ const NewFamilyDetailForm = (props) => {
       </option>
     );
   });
+
+  const closeFamilyDetail = () => {
+    studentCtx.removeSelectedFamilyMemeber();
+    props.onCloseFamilyDetailHandler();
+  };
 
   const submitFormHandler = (event) => {
     event.preventDefault();
@@ -202,7 +218,17 @@ const NewFamilyDetailForm = (props) => {
           )}
         </div>
         <div className={classes.actions}>
-          <button className="btn">Add Family Details</button>
+          <button
+            type="button"
+            onClick={closeFamilyDetail}
+            className="close-btn"
+          >
+            Close
+          </button>
+          <button className="btn">
+            {" "}
+            {familyMemberId ? "Update Family Details" : "Add Family Details"}
+          </button>
         </div>
       </form>
     </Card>

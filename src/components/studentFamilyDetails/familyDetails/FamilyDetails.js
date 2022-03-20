@@ -28,6 +28,10 @@ const FamilyDetails = () => {
     setIsAddingFamilyDetail(true);
   };
 
+  const closeFamilyDetailHandler = () => {
+    setIsAddingFamilyDetail(false);
+  };
+
   const addedFamilyDetailHandler = useCallback(() => {
     sendRequest(studentId);
   }, [sendRequest, studentId]);
@@ -59,7 +63,7 @@ const FamilyDetails = () => {
     status === "completed" &&
     (!loadedFamilyDetails || loadedFamilyDetails.length === 0)
   ) {
-    familyDetails = <p className="centered">No family Details added yet !</p>;
+    familyDetails = <p className="centered">No family details added yet !</p>;
   }
 
   return (
@@ -74,6 +78,7 @@ const FamilyDetails = () => {
         <NewFamilyDetailForm
           studentId={studentId}
           onAddedFamilyDetail={addedFamilyDetailHandler}
+          onCloseFamilyDetailHandler={closeFamilyDetailHandler}
         />
       )}
       {familyDetails}

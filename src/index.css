@@ -32,6 +32,27 @@ body {
   cursor: pointer;
 }
 
+.btn-remove {
+  text-decoration: none;
+  background-color: red;
+  color: white;
+  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid teal;
+  cursor: pointer;
+}
+
+.close-btn {
+  margin-right: 7px;
+  background-color: #f0f0f0;
+  color: black;
+  text-decoration: none;
+  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid teal;
+  cursor: pointer;
+}
+
 .btn:hover,
 .btn:active {
   background-color: #11acac;
