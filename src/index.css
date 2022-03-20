@@ -85,3 +85,14 @@ body {
   border-radius: 25px;
   margin-left: 1rem;
 }
+
+.actions-confirm {
+  font: inherit;
+  cursor: pointer;
+  color: white;
+  background-color: #002020;
+  border: 1px solid #fefefe;
+  padding: 0.5rem 2rem;
+  border-radius: 25px;
+  margin-left: 1rem;
+}

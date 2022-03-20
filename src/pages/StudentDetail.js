@@ -6,11 +6,9 @@ import { getSingleStudent, getStudentNationality } from "../lib/api";
 import LoadingSpinner from "../components/UI/loadingSpinner/LoadingSpinner";
 import StudentForm from "../components/students/studentForm/StudentForm";
 import { addOrUpdateStudent } from "../lib/api";
-// import { useNavigate } from "react-router-dom";
 import Modal from "../components/UI/modelPopUp/Modal";
 
 const StudentDetail = () => {
-  // const navigate = useNavigate();
   const { sendRequest, status: addOrUpdateStudentStatus } =
     useHttp(addOrUpdateStudent);
   const addStudentHandler = (studentData) => {
