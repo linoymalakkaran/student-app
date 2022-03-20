@@ -153,7 +153,9 @@ const NewFamilyDetailForm = (props) => {
         )}
 
         <div className={firstNameControlClasses}>
-          <label htmlFor="firstName">First Name</label>
+          <label className="required" htmlFor="firstName">
+            First Name
+          </label>
           <input
             type="text"
             id="firstName"
@@ -165,7 +167,9 @@ const NewFamilyDetailForm = (props) => {
           )}
         </div>
         <div className={lastNameControlClasses}>
-          <label htmlFor="lastName">Last Name</label>
+          <label className="required" htmlFor="lastName">
+            Last Name
+          </label>
           <input
             type="text"
             id="lastName"
@@ -177,7 +181,9 @@ const NewFamilyDetailForm = (props) => {
           )}
         </div>
         <div className={dateOfBirthControlClasses}>
-          <label htmlFor="lastName">Date of Birth</label>
+          <label className="required" htmlFor="lastName">
+            Date of Birth
+          </label>
           <DatePicker
             id="lastName"
             selected={dateOfBirth}
@@ -190,7 +196,9 @@ const NewFamilyDetailForm = (props) => {
           )}
         </div>
         <div className={relationShipControlClasses}>
-          <label htmlFor="relationShip">RelationShip</label>
+          <label className="required" htmlFor="relationShip">
+            RelationShip
+          </label>
           <select
             id="relationShip"
             value={relationShip}
@@ -203,7 +211,9 @@ const NewFamilyDetailForm = (props) => {
           )}
         </div>
         <div className={nationalityControlClasses}>
-          <label htmlFor="nationalities">Nationality</label>
+          <label className="required" htmlFor="nationalities">
+            Nationality
+          </label>
           <select
             id="nationalities"
             value={nationality}

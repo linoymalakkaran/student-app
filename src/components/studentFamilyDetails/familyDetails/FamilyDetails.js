@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import { useParams } from "react-router-dom";
 
 import classes from "./FamilyDetails.module.css";
@@ -7,8 +7,10 @@ import useHttp from "../../../hooks/use-http";
 import { getAllFamilyDetails } from "../../../lib/api";
 import LoadingSpinner from "../../UI/loadingSpinner/LoadingSpinner";
 import FamilyDetailsList from "../familyDetailsList/FamilyDetailsList";
+import StudentContext from "../../../store/student-context";
 
 const FamilyDetails = () => {
+  const studentCtx = useContext(StudentContext);
   const [isAddingFamilyDetail, setIsAddingFamilyDetail] = useState(false);
   const [isRerender, setIsRerender] = useState(false);
   const params = useParams();
@@ -26,6 +28,11 @@ const FamilyDetails = () => {
   }, [studentId, sendRequest, isRerender]);
 
   const startAddFamilyDetailHandler = () => {
+    setIsAddingFamilyDetail(true);
+    studentCtx.removeSelectedFamilyMemeber();
+  };
+
+  const editAddFamilyDetailHandler = () => {
     setIsAddingFamilyDetail(true);
   };
 
@@ -59,7 +66,7 @@ const FamilyDetails = () => {
     familyDetails = (
       <FamilyDetailsList
         familyDetails={loadedFamilyDetails}
-        startAddFamilyDetailHandler={startAddFamilyDetailHandler}
+        startAddFamilyDetailHandler={editAddFamilyDetailHandler}
         forceRender={forceRender}
       />
     );

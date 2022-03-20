@@ -137,7 +137,9 @@ const StudentForm = (props) => {
           )}
 
           <div className={firstNameControlClasses}>
-            <label htmlFor="firstName">First Name</label>
+            <label className="required" htmlFor="firstName">
+              First Name
+            </label>
             <input
               type="text"
               id="firstName"
@@ -151,7 +153,9 @@ const StudentForm = (props) => {
             )}
           </div>
           <div className={lastNameControlClasses}>
-            <label htmlFor="lastName">Last Name</label>
+            <label className="required" htmlFor="lastName">
+              Last Name
+            </label>
             <input
               type="text"
               id="lastName"
@@ -163,7 +167,9 @@ const StudentForm = (props) => {
             )}
           </div>
           <div className={dateOfBirthControlClasses}>
-            <label htmlFor="lastName">Date of Birth</label>
+            <label className="required" htmlFor="lastName">
+              Date of Birth
+            </label>
             <DatePicker
               id="lastName"
               selected={dateOfBirth}
@@ -176,7 +182,9 @@ const StudentForm = (props) => {
             )}
           </div>
           <div className={nationalityControlClasses}>
-            <label htmlFor="nationalities">Nationality</label>
+            <label className="required" htmlFor="nationalities">
+              Nationality
+            </label>
             <select
               id="nationalities"
               value={nationality}

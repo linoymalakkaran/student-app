@@ -102,3 +102,8 @@ body {
   pointer-events: none !important;
   cursor: none !important;
 }
+
+.required:after {
+  content: " *";
+  color: #b33239;
+}
