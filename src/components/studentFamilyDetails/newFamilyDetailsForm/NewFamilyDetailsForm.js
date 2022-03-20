@@ -187,7 +187,7 @@ const NewFamilyDetailForm = (props) => {
           <DatePicker
             id="lastName"
             selected={dateOfBirth}
-            onChange={(event) => setDateOfBirth(event.target.value)}
+            onChange={(dateOfBirth) => setDateOfBirth(dateOfBirth)}
           />
           {!formInputsValidity.dateOfBirth && (
             <p className={classes.invalidLabel}>
