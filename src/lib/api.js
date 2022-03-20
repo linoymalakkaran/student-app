@@ -1,3 +1,5 @@
+import { isEmpty } from "../utils/helpers";
+
 const BASE_URL = "http://localhost:8088/api";
 
 export async function getAllStudents() {
@@ -31,6 +33,15 @@ export async function addOrUpdateStudent(studentData) {
       headers: {
         "Content-Type": "application/json",
       },
+    });
+    //just to fix bug in api, if we didn't' added dummy family member when we add student,
+    //update family member api will throw an error(intrernal error 500)
+    await addOrUpdateFamilyDetail({
+      ID: null,
+      firstName: "",
+      lastName: "",
+      dateOfBirth: new Date(),
+      relationship: "",
     });
   } else {
     response = await fetch(`${BASE_URL}/Students`, {
@@ -128,5 +139,6 @@ export async function getAllFamilyDetails(studentId) {
     throw new Error(data.message || "Could not get FamilyDetails.");
   }
 
-  return data;
+  const filteredData = data.filter((item) => !isEmpty(item.firstName));
+  return filteredData;
 }

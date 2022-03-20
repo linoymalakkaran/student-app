@@ -10,6 +10,7 @@ import FamilyDetailsList from "../familyDetailsList/FamilyDetailsList";
 
 const FamilyDetails = () => {
   const [isAddingFamilyDetail, setIsAddingFamilyDetail] = useState(false);
+  const [isRerender, setIsRerender] = useState(false);
   const params = useParams();
 
   const { studentId } = params;
@@ -22,10 +23,14 @@ const FamilyDetails = () => {
 
   useEffect(() => {
     sendRequest(studentId);
-  }, [studentId, sendRequest]);
+  }, [studentId, sendRequest, isRerender]);
 
   const startAddFamilyDetailHandler = () => {
     setIsAddingFamilyDetail(true);
+  };
+
+  const forceRender = () => {
+    setIsRerender(!isRerender);
   };
 
   const closeFamilyDetailHandler = () => {
@@ -79,6 +84,7 @@ const FamilyDetails = () => {
           studentId={studentId}
           onAddedFamilyDetail={addedFamilyDetailHandler}
           onCloseFamilyDetailHandler={closeFamilyDetailHandler}
+          onForceRender={forceRender}
         />
       )}
       {familyDetails}

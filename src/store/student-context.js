@@ -5,7 +5,7 @@ const StudentContext = React.createContext({
   role: "Admin",
   addSelectedMemberItem: (item) => {},
   changeRole: (item) => {},
-  removeSelectedFamilyMemeber: (item) => {},
+  removeSelectedFamilyMemeber: () => {},
   clearStudent: () => {},
 });
 

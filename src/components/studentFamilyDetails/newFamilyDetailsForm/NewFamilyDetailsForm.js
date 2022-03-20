@@ -8,10 +8,8 @@ import LoadingSpinner from "../../UI/loadingSpinner/LoadingSpinner";
 import classes from "./NewFamilyDetailsForm.module.css";
 import DatePicker from "react-datepicker";
 import StudentContext from "../../../store/student-context";
-// import { useNavigate } from "react-router-dom";
 
 const NewFamilyDetailForm = (props) => {
-  // const navigate = useNavigate();
   const studentId = props.studentId;
   const studentCtx = useContext(StudentContext);
   const familyMemberId = studentCtx?.selectedFamilyMember?.ID || null;
@@ -31,7 +29,7 @@ const NewFamilyDetailForm = (props) => {
     studentCtx?.selectedFamilyMember?.firstName || ""
   );
   const [lastName, setLastName] = useState(
-    studentCtx?.selectedFamilyMember?.firstName || ""
+    studentCtx?.selectedFamilyMember?.lastName || ""
   );
   const [dateOfBirth, setDateOfBirth] = useState(
     studentCtx?.selectedFamilyMember?.dateOfBirth
@@ -59,8 +57,8 @@ const NewFamilyDetailForm = (props) => {
 
   useEffect(() => {
     if (status === "completed" && !error) {
-      //navigate(`/student/${studentId}/family-details`);
-      window.location.href = `/student/${studentId}/family-details`;
+      props.onCloseFamilyDetailHandler();
+      props.onForceRender();
     }
   }, [status, error, familyDetailsResponse, studentId]);
 
@@ -119,7 +117,7 @@ const NewFamilyDetailForm = (props) => {
     //#endregion form validation
 
     sendRequest({
-      ID: props.familyMemberId || "",
+      ID: familyMemberId || "",
       firstName: firstName,
       lastName: lastName,
       dateOfBirth: dateOfBirth,
@@ -223,10 +221,9 @@ const NewFamilyDetailForm = (props) => {
             onClick={closeFamilyDetail}
             className="close-btn"
           >
-            Close
+            Cancel
           </button>
           <button className="btn">
-            {" "}
             {familyMemberId ? "Update Family Details" : "Add Family Details"}
           </button>
         </div>

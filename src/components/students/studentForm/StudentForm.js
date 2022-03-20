@@ -9,8 +9,10 @@ import { getAllNationalities } from "../../../lib/api";
 import LoadingSpinner from "../../UI/loadingSpinner/LoadingSpinner";
 import { useParams } from "react-router-dom";
 import { isEmpty, isValidDate } from "../../../utils/helpers";
+import { useNavigate } from "react-router-dom";
 
 const StudentForm = (props) => {
+  const navigate = useNavigate();
   const params = useParams();
   const { studentId } = params;
 
@@ -91,9 +93,13 @@ const StudentForm = (props) => {
       firstName: firstName,
       lastName: lastName,
       dateOfBirth: dateOfBirth,
-      nationality: nationality
+      nationality: nationality,
     });
   }
+
+  const cancel = () => {
+    navigate("/students");
+  };
 
   let nationalitiesList =
     nationalities.length > 0 &&
@@ -183,6 +189,9 @@ const StudentForm = (props) => {
             )}
           </div>
           <div className={classes.actions}>
+            <button type="button" onClick={cancel} className="close-btn">
+              Cancel
+            </button>
             <button className="btn">
               {studentId ? "Update Student" : "Add Student"}
             </button>

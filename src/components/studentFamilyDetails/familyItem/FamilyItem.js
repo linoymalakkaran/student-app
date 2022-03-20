@@ -11,7 +11,9 @@ const FamilyItem = (props) => {
     props.startAddFamilyDetailHandler();
   };
 
-  const removeFamilyMemberDetails = () => {};
+  const removeFamilyMemberDetails = () => {
+    studentCtx.removeFamilyMemberDetails();
+  };
 
   return (
     <li className={classes.item}>
