@@ -1,19 +1,35 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import useHttp from "../../../hooks/use-http";
 import StudentContext from "../../../store/student-context";
 import { formatDate } from "../../../utils/helpers";
 import classes from "./FamilyItem.module.css";
+import { removeFamilyMemberDetails } from "../../../lib/api";
 
 const FamilyItem = (props) => {
   const studentCtx = useContext(StudentContext);
+  const { sendRequest, status: familyDetailsStatus } = useHttp(
+    removeFamilyMemberDetails
+  );
 
   const editFamilyMemberDetails = () => {
     studentCtx.addSelectedMemberItem(props.familyDetails);
     props.startAddFamilyDetailHandler();
   };
 
-  const removeFamilyMemberDetails = () => {
-    studentCtx.removeFamilyMemberDetails();
+  const removeFamilyMemberDetailsHandler = () => {
+    sendRequest(props.familyDetails.ID);
   };
+  
+  useEffect(() => {
+    if (familyDetailsStatus === "completed") {
+      studentCtx.removeSelectedFamilyMemeber();
+      props.forceRender();
+    }
+  }, [familyDetailsStatus]);
+
+  // if (familyDetailsStatus === "completed") {
+  //   // props.forceRender();
+  // }
 
   return (
     <li className={classes.item}>
@@ -40,7 +56,7 @@ const FamilyItem = (props) => {
       <button className="btn" onClick={editFamilyMemberDetails}>
         Edit
       </button>
-      <button className="btn-remove" onClick={removeFamilyMemberDetails}>
+      <button className="btn-remove" onClick={removeFamilyMemberDetailsHandler}>
         Remove
       </button>
     </li>

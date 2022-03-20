@@ -142,3 +142,20 @@ export async function getAllFamilyDetails(studentId) {
   const filteredData = data.filter((item) => !isEmpty(item.firstName));
   return filteredData;
 }
+
+export async function removeFamilyMemberDetails(familyMemberId) {
+  const response = await fetch(`${BASE_URL}/FamilyMembers/${familyMemberId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Could not add familyDetail.");
+  }
+
+  return data;
+}

@@ -60,6 +60,7 @@ const FamilyDetails = () => {
       <FamilyDetailsList
         familyDetails={loadedFamilyDetails}
         startAddFamilyDetailHandler={startAddFamilyDetailHandler}
+        forceRender={forceRender}
       />
     );
   }
@@ -68,7 +69,7 @@ const FamilyDetails = () => {
     status === "completed" &&
     (!loadedFamilyDetails || loadedFamilyDetails.length === 0)
   ) {
-    familyDetails = <p className="centered">No family details added yet !</p>;
+    familyDetails = <p className="centered">No family details found !</p>;
   }
 
   return (

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import { useParams, Outlet } from "react-router-dom";
 
 import useHttp from "../hooks/use-http";
@@ -6,16 +6,17 @@ import { getSingleStudent, getStudentNationality } from "../lib/api";
 import LoadingSpinner from "../components/UI/loadingSpinner/LoadingSpinner";
 import StudentForm from "../components/students/studentForm/StudentForm";
 import { addOrUpdateStudent } from "../lib/api";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import Modal from "../components/UI/modelPopUp/Modal";
 
 const StudentDetail = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { sendRequest, status: addOrUpdateStudentStatus } =
     useHttp(addOrUpdateStudent);
   const addStudentHandler = (studentData) => {
     sendRequest(studentData);
   };
+  const [isShowModal, setIsShowModal] = useState(false);
 
   const params = useParams();
 
@@ -43,26 +44,36 @@ const StudentDetail = () => {
     sendStudentNationalityRequest(studentId);
   }, [sendStudentNationalityRequest, studentId]);
 
+  const onCloseModal = () => {
+    setIsShowModal(false);
+  };
+
+  const showSuccessModal = useCallback(function () {
+    const didSubmitModalContent = (
+      <React.Fragment>
+        <div>
+          <p>Student details updated successfully</p>
+          <button className="actions-button" onClick={onCloseModal}>
+            Close
+          </button>
+        </div>
+      </React.Fragment>
+    );
+    return <Modal onClose={onCloseModal}>{didSubmitModalContent}</Modal>;
+  }, []);
+
+  useEffect(() => {
+    if (addOrUpdateStudentStatus === "completed") {
+      setIsShowModal(true);
+    }
+  }, [addOrUpdateStudentStatus]);
+
+  if (addOrUpdateStudentStatus === "completed" && isShowModal) {
+    return showSuccessModal();
+  }
+
   if (studentNationalityError) {
     return <p className="centered focused">{studentNationalityError}</p>;
-  }
-
-  function onClose() {
-    navigate("/students");
-  }
-
-  const didSubmitModalContent = (
-    <React.Fragment>
-      <div>
-        <p>Student details updated successfully</p>
-        <button className="actions-button" onClick={onClose}>
-          Close
-        </button>
-      </div>
-    </React.Fragment>
-  );
-  if (addOrUpdateStudentStatus === "completed") {
-    return <Modal onClose={onClose}>{didSubmitModalContent}</Modal>;
   }
 
   if (

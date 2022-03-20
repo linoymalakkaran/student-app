@@ -9,6 +9,7 @@ const FamilyDetailsList = (props) => {
           key={familyDetails.ID}
           familyDetails={familyDetails}
           startAddFamilyDetailHandler={props.startAddFamilyDetailHandler}
+          forceRender={props.forceRender}
         />
       ))}
     </ul>
