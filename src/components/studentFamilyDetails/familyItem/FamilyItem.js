@@ -84,11 +84,14 @@ const FamilyItem = (props) => {
         </div>
         <div className="figcaption">{props.familyDetails.relationship}</div>
       </div>
-      <button className="btn" onClick={editFamilyMemberDetails}>
+      <button
+        className={`btn ${studentCtx.role}`}
+        onClick={editFamilyMemberDetails}
+      >
         Edit
       </button>
       <button
-        className="btn-remove"
+        className={`btn-remove ${studentCtx.role}`}
         onClick={removeFamilyMemberDetailsConfirmation}
       >
         Remove

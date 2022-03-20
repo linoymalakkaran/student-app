@@ -96,3 +96,9 @@ body {
   border-radius: 25px;
   margin-left: 1rem;
 }
+
+.Admin {
+  opacity: 0.5 !important;
+  pointer-events: none !important;
+  cursor: none !important;
+}

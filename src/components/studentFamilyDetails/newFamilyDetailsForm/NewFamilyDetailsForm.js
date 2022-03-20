@@ -223,9 +223,13 @@ const NewFamilyDetailForm = (props) => {
           >
             Cancel
           </button>
-          <button className="btn">
-            {familyMemberId ? "Update Family Details" : "Add Family Details"}
-          </button>
+          {familyMemberId ? (
+            <button className={`btn ${studentCtx.role}`}>
+              Update Family Details
+            </button>
+          ) : (
+            <button className="btn">Add Family Details</button>
+          )}
         </div>
       </form>
     </Card>

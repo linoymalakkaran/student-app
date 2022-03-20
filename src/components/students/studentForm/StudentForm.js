@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 
 import Card from "../../UI/card/Card";
 import classes from "./StudentForm.module.css";
@@ -10,9 +10,11 @@ import LoadingSpinner from "../../UI/loadingSpinner/LoadingSpinner";
 import { useParams } from "react-router-dom";
 import { isEmpty, isValidDate } from "../../../utils/helpers";
 import { useNavigate } from "react-router-dom";
+import StudentContext from "../../../store/student-context";
 
 const StudentForm = (props) => {
   const navigate = useNavigate();
+  const studentCtx = useContext(StudentContext);
   const params = useParams();
   const { studentId } = params;
 
@@ -192,9 +194,13 @@ const StudentForm = (props) => {
             <button type="button" onClick={cancel} className="close-btn">
               Cancel
             </button>
-            <button className="btn">
-              {studentId ? "Update Student" : "Add Student"}
-            </button>
+            {studentId ? (
+              <button className={`btn ${studentCtx.role}`}>
+                Update Student
+              </button>
+            ) : (
+              <button className="btn">Add Student</button>
+            )}
           </div>
         </form>
       </Card>
